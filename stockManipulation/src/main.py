@@ -135,7 +135,7 @@ def main():
         time_delay = 1
         dimension = 1
         threshold = 'point'
-        percentage = 40
+        percentage = 50
         num_graficos_para_visualizar = 4
 
         # Abordagem com livro de ofertas simplificado
