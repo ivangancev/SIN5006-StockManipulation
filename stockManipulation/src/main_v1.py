@@ -1,3 +1,12 @@
+""""
+Script referente ao trabalho da disciplina SIN5006 - Inteligência Computationl
+Aluno: Ivan Ferreira Gancev
+Professor: Patrícia Rufino Oliveira
+Ano: 2025
+Objetivo: Efetuar a carga dos arquivos de orderbook do LOBSTER, gerar as janelas deslizantes
+e gerar os gráficos de recorrência.
+"""
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt

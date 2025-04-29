@@ -18,8 +18,8 @@ def carregar_livro_ordens(arquivo_orderbook):
 
     livro_ordens = pd.read_csv(arquivo_orderbook, header=None)
     livro_ordens.columns = ['best_ask', 'best_ask_size','best_bid', 'best_bid_size' ]
-    livro_ordens['best_bid'] = livro_ordens['best_bid'].astype(float)
-    livro_ordens['best_bid_size'] = livro_ordens['best_bid_size'].astype(float)
+    #livro_ordens['best_ask'] = livro_ordens['best_ask'].astype(float)
+    #livro_ordens['best_bid'] = livro_ordens['best_bid'].astype(float)
 
     return livro_ordens
 
@@ -92,14 +92,17 @@ def visualizar_recurrence_plots(recurrence_plots, num_graficos=5):
     """
     num_plots = min(num_graficos, len(recurrence_plots))
     plt.figure(figsize=(15, 5 * num_plots))
-    for i in range(num_plots):
+    graph_index = 1
+    for i in range(0, num_plots):
         plt.subplot(1, num_plots, i + 1)
-        plt.imshow(recurrence_plots[i], cmap='binary', origin='lower')
-        plt.title(f'Recurrence Plot da Janela {i + 1}')
+        plt.imshow(recurrence_plots[graph_index], cmap='binary', origin='lower')
+        #plt.imshow(recurrence_plots[i], cmap='binary', origin='lower')
+        plt.title(f'Recurrence Plot da Janela {graph_index}')
         plt.xlabel('Tempo')
         plt.ylabel('Tempo')
         plt.colorbar(label='Recorrência', shrink=0.3)
         plt.tight_layout()
+        graph_index = graph_index + int(round(len(recurrence_plots)/num_plots,0))
         plt.show()
 
 # ------------------------------------------------------------------------------
@@ -126,17 +129,17 @@ def main():
         
         """PARAMÊTROS PARA EXECUÇÃO"""
         #arquivo_orderbook = "D:\Temp\Lobster data\AMZN_2012-06-21_34200000_57600000_orderbook_1.csv"
-        #arquivo_orderbook = "D:\Temp\Lobster data\AaPL_2012-06-21_34200000_57600000_orderbook_1.csv"
-        arquivo_orderbook = "D:\Temp\Lobster data\GOOG_2012-06-21_34200000_57600000_orderbook_1.csv"
-        #arquivo_orderbook = "D:\Temp\Lobster data\INTC_2012-06-21_34200000_57600000_orderbook_1.csv"
+        #arquivo_orderbook = "D:\Temp\Lobster data\AAPL_2012-06-21_34200000_57600000_orderbook_1.csv"
+        arquivo_orderbook = "D:\Temp\Lobster data\INTC_2012-06-21_34200000_57600000_orderbook_1.csv"
+        #arquivo_orderbook = "D:\Temp\Lobster data\GOOG_2012-06-21_34200000_57600000_orderbook_1.csv"
         #arquivo_orderbook = "D:\Temp\Lobster data\MSFT_2012-06-21_34200000_57600000_orderbook_1.csv"
-        tamanho_janela = 800
+        tamanho_janela = 1000
         passo = 500
         time_delay = 1
         dimension = 1
-        threshold = 'point'
-        percentage = 50
-        num_graficos_para_visualizar = 4
+        threshold = 'distance'
+        percentage = 5
+        num_graficos_para_visualizar = 5
 
         # Abordagem com livro de ofertas simplificado
         print("Carregando o livro de ofertas...")
@@ -146,7 +149,8 @@ def main():
         print(df_livro_ordens.head())
 
         print("\nCriando janelas deslizantes...")
-        colunas_para_janelas = ['best_bid', 'best_ask']
+        colunas_para_janelas = ['best_ask', 'best_bid']
+        #colunas_para_janelas = ['best_ask']
         dados_para_janelas = df_livro_ordens[colunas_para_janelas]
         janelas_deslizantes = criar_janelas_deslizantes(dados_para_janelas, tamanho_janela, passo)
         print(f"{len(janelas_deslizantes)} janelas deslizantes criadas.")
